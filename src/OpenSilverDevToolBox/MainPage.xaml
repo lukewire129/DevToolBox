@@ -86,23 +86,23 @@
                         x:Name="RbNone"
                         Content="None"
                         Foreground="White"
-                        IsChecked="{Binding Wrapper, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=None}" />
+                        IsChecked="{Binding Wrapper, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=None}" />
                     <RadioButton
                         x:Name="RbParent"
                         Content="Parentheses"
                         Foreground="White"
-                        IsChecked="{Binding Wrapper, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Parentheses}" />
+                        IsChecked="{Binding Wrapper, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Parentheses}" />
                     <RadioButton
                         x:Name="RbBraces"
                         Content="Braces"
                         Foreground="White"
-                        IsChecked="{Binding Wrapper, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Braces}" />
+                        IsChecked="{Binding Wrapper, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Braces}" />
                     <RadioButton
                         x:Name="RbUrn"
                         Margin="0,0,0,15"
                         Content="URN Prefix"
                         Foreground="White"
-                        IsChecked="{Binding Wrapper, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Urn}" />
+                        IsChecked="{Binding Wrapper, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Urn}" />
 
                     <Button
                         Height="40"
