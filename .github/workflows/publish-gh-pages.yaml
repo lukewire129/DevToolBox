@@ -1,0 +1,56 @@
+name: Publish OpenSilver to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x' # 프로젝트 버전이 8.0이면 '8.x'로 수정하세요.
+
+      - name: Install wasm-tools workload
+        run: dotnet workload install wasm-tools
+
+      # Browser 프로젝트만 타겟팅하여 publish (빌드 과정 포함됨)
+      - name: Publish OpenSilver App
+        run: |
+          dotnet publish ./src/OpenSilverDevToolBox.Browser/OpenSilverDevToolBox.Browser.csproj \
+          -c Release \
+          -o ./publish
+
+      # .nojekyll 및 404.html 생성 단계 (가장 중요)
+      - name: GitHub Pages Fixes
+        run: |
+          # publish 결과물이 모인 wwwroot 폴더 경로 설정
+          WWWROOT="./publish/wwwroot"
+          
+          # 1. .nojekyll 파일 생성 (GitHub의 Jekyll 처리 방지)
+          touch "$WWWROOT/.nojekyll"
+          
+          # 2. 404.html 생성 (직접 주소 입력 시 index.html로 연결)
+          cp "$WWWROOT/index.html" "$WWWROOT/404.html"
+          
+          # 3. 파일 생성 확인 (로그에서 직접 확인 가능)
+          echo "Checking files in wwwroot:"
+          ls -a "$WWWROOT"
+
+      # gh-pages 브랜치로 결과물 푸시
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./publish/wwwroot
+          branch: gh-pages
+          clean: true
