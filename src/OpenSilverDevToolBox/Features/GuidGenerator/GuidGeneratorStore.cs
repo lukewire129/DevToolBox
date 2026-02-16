@@ -17,18 +17,6 @@ public class GuidGeneratorStore : KnottyStore<GuidGeneratorState, GuidGeneratorI
         set => State = State with { Wrapper = value };
     }
 
-    public bool UseNoHyphen
-    {
-        get => State.UseNoHyphen;
-        set => State = State with { UseNoHyphen = value };
-    }
-
-    public bool UseUpperCase
-    {
-        get => State.UseUpperCase;
-        set => State = State with { UseUpperCase = value };
-    }
-
     public GuidGeneratorStore() : base (new GuidGeneratorState ()) {
         UpdateCodeStudyArea (99999);
     }
