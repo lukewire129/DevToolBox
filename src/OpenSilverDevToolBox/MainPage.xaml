@@ -1,0 +1,152 @@
+﻿<Page
+    x:Class="OpenSilverDevToolBox.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:OpenSilverDevToolBox.Infrastructure.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:OpenSilverDevToolBox"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Foreground="{DynamicResource Theme_TextBrush}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <conv:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+    </Page.Resources>
+    <Grid Background="#1E1E1E">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="20">
+            <TextBlock
+                Margin="0,0,0,20"
+                FontSize="26"
+                FontWeight="Bold"
+                Foreground="#4EC9B0"
+                Text="🛠️ GUID MASTER" />
+
+            <Border
+                Padding="15"
+                Background="#2D2D2D"
+                CornerRadius="5">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,5"
+                        Foreground="White"
+                        Text="Version" />
+                    <ComboBox
+                        x:Name="ComboVersion"
+                        Margin="0,0,0,20"
+                        SelectionChanged="ComboVersion_SelectionChanged">
+                        <ComboBoxItem Content="v1 (Time-based)" />
+                        <ComboBoxItem Content="v4 (Random)" IsSelected="True" />
+                        <ComboBoxItem Content="v5 (Name-based)" />
+                        <ComboBoxItem Content="v7 (Ordered)" />
+                    </ComboBox>
+
+                    <StackPanel
+                        x:Name="PanelV5"
+                        Margin="0,0,0,15"
+                        Visibility="Collapsed">
+                        <TextBlock
+                            Margin="0,0,0,5"
+                            FontSize="11"
+                            Foreground="#4EC9B0"
+                            Text="Source Text for v5" />
+                        <TextBox
+                            x:Name="TxtV5Input"
+                            Padding="5"
+                            Background="#3E3E42"
+                            BorderThickness="1"
+                            Foreground="White"
+                            PlaceholderText="ID로 변환할 문자열 입력 (예: user_101)" />
+                    </StackPanel>
+
+                    <TextBlock
+                        Margin="0,0,0,5"
+                        Foreground="White"
+                        Text="Options" />
+                    <CheckBox
+                        x:Name="CbUpper"
+                        Content="UPPERCASE"
+                        Foreground="White"
+                        IsChecked="{Binding UseNoHyphen}" />
+                    <CheckBox
+                        x:Name="CbNoHyphen"
+                        Margin="0,5,0,15"
+                        Content="No Hyphen"
+                        Foreground="White"
+                        IsChecked="{Binding UseUpperCase}" />
+
+                    <TextBlock
+                        Margin="0,0,0,5"
+                        Foreground="White"
+                        Text="Wrappers" />
+                    <RadioButton
+                        x:Name="RbNone"
+                        Content="None"
+                        Foreground="White"
+                        IsChecked="{Binding Wrapper, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=None}" />
+                    <RadioButton
+                        x:Name="RbParent"
+                        Content="Parentheses"
+                        Foreground="White"
+                        IsChecked="{Binding Wrapper, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Parentheses}" />
+                    <RadioButton
+                        x:Name="RbBraces"
+                        Content="Braces"
+                        Foreground="White"
+                        IsChecked="{Binding Wrapper, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Braces}" />
+                    <RadioButton
+                        x:Name="RbUrn"
+                        Margin="0,0,0,15"
+                        Content="URN Prefix"
+                        Foreground="White"
+                        IsChecked="{Binding Wrapper, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Urn}" />
+
+                    <Button
+                        Height="40"
+                        Background="#007ACC"
+                        Click="BtnGenerate_Click"
+                        Content="GENERATE"
+                        FontWeight="Bold"
+                        Foreground="White" />
+                </StackPanel>
+            </Border>
+
+            <ListBox
+                x:Name="LstGuids"
+                Height="300"
+                Margin="0,20,0,0"
+                Background="#252526"
+                Foreground="White"
+                ItemsSource="{Binding State.Results}">
+                <ListBox.Resources>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Foreground" Value="White" />
+                    </Style>
+                </ListBox.Resources>
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="20">
+            <TextBlock
+                Margin="0,0,0,15"
+                FontSize="20"
+                Foreground="#CE9178"
+                Text="📖 Study Note" />
+            <Border
+                Padding="15"
+                Background="#1E1E1E"
+                BorderBrush="#3E3E42"
+                BorderThickness="1">
+                <TextBlock
+                    FontFamily="Consolas"
+                    FontSize="13"
+                    Foreground="#D4D4D4"
+                    Text="{Binding State.VersionDisplay}"
+                    TextWrapping="Wrap" />
+            </Border>
+        </StackPanel>
+    </Grid>
+</Page>
